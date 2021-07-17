@@ -1,4 +1,4 @@
-import { EventEmitter } from "./EventEmitter.js";
+import { EventEmitter } from "./src/EventEmitter.js";
 const event = new EventEmitter();
 // イベントリスナー（コールバック関数）を登録
 event.addEventListener("test-event", () => console.log("One!"));
