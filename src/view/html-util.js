@@ -15,10 +15,10 @@ export function escapeSpecialChars(str) {
 export function htmlToElement(html) {
   const template = document.createElement("template");
   template.innerHTML = html;
-  /* template内容の最初の子HTML要素を取得する */
-/*   console.log(template);
+  /*   console.log(template);
   console.log(template.content);
   console.log(template.content.firstChild); */
+  /* template内容の最初の子HTML要素を取得する */
   return template.content.firstElementChild;
 }
 
@@ -36,7 +36,6 @@ export function element(strings, ...values) {
     /* 入力された内容が文字であれば */
     if(typeof value === "string") {
       /* エスケープ文字を変換して返す */
-      /* resultには１つ前に呼んだコールバック関数の文字列の合計が１つにまとめて入っている */
       return result + escapeSpecialChars(value) + str; //<li>app</li>文字列がhtmlStringの中に入る
     } else {
       /* 入力された内容が数字であれば */

@@ -9,6 +9,7 @@ export class EventEmitter {
 
     /**
      * 指定したイベントが実行されたときに呼び出されるリスナー関数を登録する
+     * 登録するだけ、呼び出すのはemit()関数
      * @param {string} type イベント名
      * @param {Function} listener イベントリスナー
      */
@@ -16,27 +17,31 @@ export class EventEmitter {
         // 指定したイベントに対応するSetを作成しリスナー関数を登録する
         // イベントに対してリスナー関数がセットされていなければ
         if (!this._listeners.has(type)) {
-            // イベントに対して空のSetコンストラクタをセットする
+            // イベントに対して空のSetオブジェクトをセットする
             this._listeners.set(type, new Set());　
         }
         const listenerSet = this._listeners.get(type);
+        //Setオブジェクトにリスナー関数を登録している（配列として持っている）
         listenerSet.add(listener);
     }
 
     /**
      * 指定したイベントをディスパッチする
+     * 登録したイベント名を引数に指定することで、そのイベントに対して登録してある
+     * イベントリスナーを発火させる
      * @param {string} type イベント名
      */
     emit(type) {
-        // 指定したイベントに対応するSetを取り出し、すべてのリスナー関数を呼び出す
-        const listenerSet = this._listeners.get(type);
+        // 引数にとったtype(イベント名)を指定し、それをlistenerSetに格納
+        // 型はSetオブジェクトでキーと値を持っている
+        const listenerSet = this._listeners.get(type); //"change"というイベント名に格納されてるSetオブジェクトを取得 
         if (!listenerSet) {
             return;
         }
         // listenerSetにはSetオブジェクトが格納されている
-        // その中のlistener関数を１つずつ取り出してcall（呼び出し）ている
+        // その中のリスナー関数を１つずつ取り出してcall（呼び出し）ている
+        console.log(listenerSet); //型はオブジェクト(Set)
         listenerSet.forEach(listener => {
-            console.log(listener);
             listener.call(this);
         });
     }
