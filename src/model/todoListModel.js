@@ -4,6 +4,7 @@ export class TodoListModel extends EventEmitter {
     /**
      * @param {TodoItemModel[]} [item] 初期アイテム一覧（デフォルトは空の配列）
      */
+    //itemsは空の配列を最初に持っている
     constructor(items = []) {
         super(); // オブジェクトの親のコンストラクタを呼び出すために使用
         this.items = items;
@@ -47,6 +48,20 @@ export class TodoListModel extends EventEmitter {
      */
     addTodo(todoItem) {
         this.items.push(todoItem);//items配列にtodoItemを追加してる
+        this.emitChange();
+    }
+
+    /**
+     * 指定したidのTodoItemのcompletedを更新する
+     * @param {{ id:number, completed: boolean }}
+     */
+    updateTodo({ id, completed }) {
+        //items配列の中身のidを１つずつ✔。引数で指定したidと合致したらその要素（TodoItemModel）をtodoItemに返す
+        const todoItem = this.items.find(todo => todo.id === id);
+        if(!todoItem){
+            return;
+        }
+        todoItem.completed = completed; //指定したidの状態を指定した引数で更新する
         this.emitChange();
     }
 }
