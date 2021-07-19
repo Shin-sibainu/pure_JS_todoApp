@@ -12,9 +12,23 @@ export class App {
   constructor() {
     console.log("App initialized");
     // 1.TodoListの初期化
-    this.todoListModel = new TodoListModel();
+    //this.todoListView = new TodoListView();
+    this.todoListModel = new TodoListModel([]);
     //console.log(this.todoListModel.getTotalCount()); //0
   }
+
+  handleAdd(title){
+    this.todoListModel.addTodo(new TodoItemModel({title,completed: false}));
+  }
+
+  handleUpdate({id, completed}) {
+    this.todoListModel.updateTodo({id, completed});
+  }
+
+  handleDelete({id}) {
+    this.todoListModel.deleteTodo({ id });
+  }
+
   mount(){
     // `id="js-form`の要素を取得
     console.log("mount is called")
@@ -30,12 +44,15 @@ export class App {
       const todoItems = this.todoListModel.getTodoItems();
       const todoListView = new TodoListView();
       const todoListElement = todoListView.createElement(todoItems, {
+      /*onUpdateTodo: ({id, completed}) => {
+        this.todoListModel.updateTodo({id, completed});
+        }, */
         onUpdateTodo: ({id, completed}) => {
-          this.todoListModel.updateTodo({id, completed});
+          this.handleUpdate({id, completed});
         },
-        onDeleteTodo: ({id}) => {
-          this.todoListModel.deleteTodo({id});
-        }
+        onDeleteTodo: ({ id }) => {
+          this.handleDelete({ id });
+        } 
       });
       /* //TodoリストをまとめるList要素
       const todoListElement = element`<ul />`;
@@ -88,10 +105,11 @@ export class App {
       event.preventDefault();
       //新しいTodoItemをTodoListへ追加する
       //アイテムを追加しただけでonChangeが呼ばれ、表示も更新される
-      this.todoListModel.addTodo(new TodoItemModel({
+   /*    this.todoListModel.addTodo(new TodoItemModel({
         title: inputElement.value,
         completed: false //最初は未完了状態
-      }));
+      })); */
+      this.handleAdd(inputElement.value);
       //console.log(inputElement.value);
       //const todoItemElement = element`<li>${inputElement.value}</li>`;
       //containerElement.appendChild(todoItemElement);
@@ -101,5 +119,10 @@ export class App {
 
       inputElement.value = "";
     });
+  }
+
+  //ページが読み込み破棄されたときにリスナーイベントを解除する
+  unmount() {
+
   }
 }

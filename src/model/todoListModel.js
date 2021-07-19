@@ -48,7 +48,7 @@ export class TodoListModel extends EventEmitter {
      */
     addTodo(todoItem) {
         this.items.push(todoItem);//items配列にtodoItemを追加してる
-        this.emitChange();
+        this.emitChange();//TodoListModelの変更が通知される
     }
 
     /**
@@ -62,7 +62,7 @@ export class TodoListModel extends EventEmitter {
             return;
         }
         todoItem.completed = completed; //指定したidの状態を指定した引数で更新する
-        this.emitChange();
+        this.emitChange();//TodoListModelの変更が通知される
     }
 
     /**
@@ -74,6 +74,6 @@ export class TodoListModel extends EventEmitter {
         //IDがあってなければtrueを返す=配列として残す。逆にIDがあっていれば（指定したIDであれば）filterしないから削除される
             return todo.id !== id
         });
-        this.emitChange();
+        this.emitChange(); //TodoListModelの変更が通知される
     }
 }

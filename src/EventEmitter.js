@@ -40,7 +40,7 @@ export class EventEmitter {
         }
         // listenerSetにはSetオブジェクトが格納されている
         // その中のリスナー関数を１つずつ取り出してcall（呼び出し）ている
-        console.log(listenerSet); //型はオブジェクト(Set)
+        //console.log(listenerSet); //型はオブジェクト(Set)
         listenerSet.forEach(listener => {
             listener.call(this);
         });
