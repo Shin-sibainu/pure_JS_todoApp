@@ -1,7 +1,11 @@
+//HTML要素とModel間で発生するイベントを中継する役割を持つ
 console.log("App.js: loaded");
 import {TodoListModel} from "./model/todoListModel.js";
 import {TodoItemModel} from "./model/todoItemModel.js";
-import {element, render} from "./view/html-util.js"
+import {TodoListView} from "../src/view/TodoListView.js";
+import {TodoItemView} from "../src/view/TodoItemView.js";
+import {render} from "./view/html-util.js"
+//import {element, render} from "./view/html-util.js"
 
 /* JavaScriptモジュールを書く場所。index.jsで読み込ませる。 */
 export class App {
@@ -9,10 +13,11 @@ export class App {
     console.log("App initialized");
     // 1.TodoListの初期化
     this.todoListModel = new TodoListModel();
-    console.log(this.todoListModel.getTotalCount()); //0
+    //console.log(this.todoListModel.getTotalCount()); //0
   }
   mount(){
     // `id="js-form`の要素を取得
+    console.log("mount is called")
     const formElement = document.querySelector("#js-form");
     const inputElement = document.querySelector("#js-form-input");
     const containerElement = document.querySelector("#js-todo-list");
@@ -20,19 +25,55 @@ export class App {
     //let todoItemCount = 0;
     // 2.TodoListModelの状態が更新されたら表示を更新する
     this.todoListModel.onChange(() => {
-      //TodoリストをまとめるList要素
-      const todoListElement = element`<ul />`;
+      //console.log("onchange is called");
       //それぞれのTodoItem要素をtodoListElement以下へ追加する
       const todoItems = this.todoListModel.getTodoItems();
+      const todoListView = new TodoListView();
+      const todoListElement = todoListView.createElement(todoItems, {
+        onUpdateTodo: ({id, completed}) => {
+          this.todoListModel.updateTodo({id, completed});
+        },
+        onDeleteTodo: ({id}) => {
+          this.todoListModel.deleteTodo({id});
+        }
+      });
+      /* //TodoリストをまとめるList要素
+      const todoListElement = element`<ul />`;
       todoItems.forEach(item => {
         //const todoItemElement = element`<li>${item.title}</li>`;
         // 完了済みならchecked属性をつけ、未完了ならchecked属性を外す
         // input要素にはcheckedboxクラスをつける
         const todoItemElement = item.completed //条件式
-        ? element`<li><input type="checkbox" class="checkbox" checked><s>${item.title}</s></li>` //falseなら完了済
-        : element`<li><input type="checkbox" class="checkbox">${item.title}</li>` //trueなら未完了
+        ? element`<li><input type="checkbox" class="checkbox" checked>
+            <s>${item.title}</s>
+            <button class="delete">x</button>
+          </li>` //falseなら完了済
+        : element`<li><input type="checkbox" class="checkbox">
+            ${item.title}
+            <button class="delete">x</button>
+          </li>` //trueなら未完了
+        //チェックボックスがトグルしたときのイベントにリスナー関数を登録
+        const inputCheckboxElement = todoItemElement.querySelector(".checkbox");
+        //ラジオボタンが押されるかどうかを常にリッスンしておく
+        inputCheckboxElement.addEventListener("change", () => {
+          //指定したアイテムの完了状態を反転させる
+          this.todoListModel.updateTodo({
+            id: item.id,
+            completed: !item.completed
+          });
+        });
+        //削除ボタン（x）がクリックされたときにTodoListModelからアイテムを削除
+        const deleteButtonElement = todoItemElement.querySelector(".delete");
+        deleteButtonElement.addEventListener("click", () => {
+          //TodoItemを削除する
+          this.todoListModel.deleteTodo({
+            id: item.id
+          });
+        });
         todoListElement.appendChild(todoItemElement);
-      });
+      }); */
+
+
       //containerElementの中身をtodoListElementで上書きする
       render(todoListElement, containerElement);
       //アイテム数の表示を更新
@@ -49,7 +90,7 @@ export class App {
       //アイテムを追加しただけでonChangeが呼ばれ、表示も更新される
       this.todoListModel.addTodo(new TodoItemModel({
         title: inputElement.value,
-        completed: false
+        completed: false //最初は未完了状態
       }));
       //console.log(inputElement.value);
       //const todoItemElement = element`<li>${inputElement.value}</li>`;

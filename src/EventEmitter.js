@@ -8,10 +8,11 @@ export class EventEmitter {
     }
 
     /**
-     * 指定したイベントが実行されたときに呼び出されるリスナー関数を登録する
-     * 登録するだけ、呼び出すのはemit()関数
-     * @param {string} type イベント名
-     * @param {Function} listener イベントリスナー
+     * 組み込み関数のaddEventListenerではない。自作関数。
+     * 指定したイベントが実行されたときに呼び出されるリスナー関数を登録する。
+     * 登録するだけ、呼び出すのはemit()関数。
+     * @param {string} type イベント名（change）
+     * @param {Function} listener イベントリスナー(更新や削除の関数)
      */
     addEventListener(type, listener) {
         // 指定したイベントに対応するSetを作成しリスナー関数を登録する
@@ -20,16 +21,15 @@ export class EventEmitter {
             // イベントに対して空のSetオブジェクトをセットする
             this._listeners.set(type, new Set());　
         }
-        const listenerSet = this._listeners.get(type);
+        const listenerSet = this._listeners.get(type); //listenerSetにはSetオブジェクトが入っている
         //Setオブジェクトにリスナー関数を登録している（配列として持っている）
         listenerSet.add(listener);
     }
 
     /**
-     * 指定したイベントをディスパッチする
-     * 登録したイベント名を引数に指定することで、そのイベントに対して登録してある
-     * イベントリスナーを発火させる
-     * @param {string} type イベント名
+     * 指定したイベントをディスパッチする(実行する)
+     * 登録したイベント名を引数に指定することで、そのイベントに対して登録してあるイベントリスナーを発火させる
+     * @param {string} type イベント名（changeが入る）
      */
     emit(type) {
         // 引数にとったtype(イベント名)を指定し、それをlistenerSetに格納
