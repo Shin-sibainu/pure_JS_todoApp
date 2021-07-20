@@ -1,3 +1,4 @@
+//イベントが発生したときにイベントリスナーを呼び出すクラス
 export class EventEmitter {
     constructor() {
         // 登録する [イベント名, Set(リスナー関数)] を管理するMap
@@ -16,9 +17,9 @@ export class EventEmitter {
      */
     addEventListener(type, listener) {
         // 指定したイベントに対応するSetを作成しリスナー関数を登録する
-        // イベントに対してリスナー関数がセットされていなければ
+        // もし、初めて新しいイベント名(type)を指定するなら
         if (!this._listeners.has(type)) {
-            // イベントに対して空のSetオブジェクトをセットする
+            // イベントに対して空のSetオブジェクトをセットする(リスナー関数用に用意している)
             this._listeners.set(type, new Set());　
         }
         const listenerSet = this._listeners.get(type); //listenerSetにはSetオブジェクトが入っている
@@ -28,6 +29,7 @@ export class EventEmitter {
 
     /**
      * 指定したイベントをディスパッチする(実行する)
+     * 実行しないとApp.jsで登録したリスナー関数は無意味なものになる。だからここで発火させている。
      * 登録したイベント名を引数に指定することで、そのイベントに対して登録してあるイベントリスナーを発火させる
      * @param {string} type イベント名（changeが入る）
      */

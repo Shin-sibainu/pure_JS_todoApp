@@ -30,13 +30,12 @@ export class TodoListModel extends EventEmitter {
      * @param {Function} listener
      */
     onChange(listener) {
-        // フォーム部品の状態が変更された時に発動される
-        // ラジオボタンのチェックが付いた、外れたときに発火
-        // 入力フォームのフォーカスを外したタイミング等
+        //console.log("onChnage id called"); //これはページをロードしたときに呼び出される（"change"という名前で登録される）
         this.addEventListener("change", listener);
     }
     /**
      * 状態が変更されたときに呼ぶ。登録済みのリスナー関数を呼び出す
+     * 要はここで変更（追加、更新、削除）したよ！と通知を受け取っている
      */ 
     emitChange() {
         this.emit("change");
