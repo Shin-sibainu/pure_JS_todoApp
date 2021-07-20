@@ -18,7 +18,10 @@ export class App {
   }
 
   handleAdd(title){
-    this.todoListModel.addTodo(new TodoItemModel({title,completed: false}));
+    if(title === ""){
+      return;
+    }
+    this.todoListModel.addTodo(new TodoItemModel({title, completed: false}));
   }
 
   handleUpdate({id, completed}) {
@@ -121,8 +124,13 @@ export class App {
     });
   }
 
-  //ページが読み込み破棄されたときにリスナーイベントを解除する
-  unmount() {
-
-  }
+  //ページが読み込み破棄されたときにイベントリスナーを解除する
+/*   unmount() {
+    console.log("unmount is called");
+    const formElement = document.querySelector("#js-form");
+    //target.removeEventListener(type, listener[, options]);
+    //フォームのイベントリスナーの削除
+    formElement.removeEventListener("submit", () => {
+    });
+  } */
 }
