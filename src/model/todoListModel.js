@@ -30,7 +30,7 @@ export class TodoListModel extends EventEmitter {
      * @param {Function} listener
      */
     onChange(listener) {
-        //console.log("onChnage id called"); //これはページをロードしたときに呼び出される（"change"という名前で登録される）
+        //console.log(listener); //これはページをロードしたときだけ呼び出される（"change"という名前で登録される）
         this.addEventListener("change", listener);
     }
     /**

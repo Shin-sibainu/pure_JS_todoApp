@@ -25,6 +25,7 @@ export class App {
   }
 
   handleUpdate({id, completed}) {
+    //console.log("handleUpdate is called");
     this.todoListModel.updateTodo({id, completed});
   }
 
@@ -51,6 +52,7 @@ export class App {
         this.todoListModel.updateTodo({id, completed});
         }, */
         onUpdateTodo: ({id, completed}) => {
+          //console.log("onUpdateTodo");//✔ボタンクリックしたときに発動
           this.handleUpdate({id, completed});
         },
         onDeleteTodo: ({ id }) => {
@@ -122,6 +124,11 @@ export class App {
 
       inputElement.value = "";
     });
+
+    //ここからはYotube用
+    /* 
+    
+    */
   }
 
   //ページが読み込み破棄されたときにイベントリスナーを解除する
