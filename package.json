@@ -1,3 +1,22 @@
 {
-    "type": "module"
+  "type": "module",
+  "name": "pure_JS_todoApp",
+  "description": "this project is larning for VanillaJs.\r I try to understand MVCmodel for creating todoApp project.",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Shin-sibainu/pure_JS_todoApp.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Shin-sibainu/pure_JS_todoApp/issues"
+  },
+  "homepage": "https://github.com/Shin-sibainu/pure_JS_todoApp#readme"
 }
