@@ -41,3 +41,20 @@ export class App {
     }
 }
 */
+
+/* 
+this.todoListModel.onChange(() => {
+    const todoListElement = element`<ul />`;
+    const todoItems = this.todoListModel.getTodoItems();
+    todoItems.forEach(item => {
+        // 完了済みならchecked属性をつけ、未完了ならchecked属性を外す
+        // input要素にはcheckboxクラスをつける
+        const todoItemElement = item.completed
+            ? element`<li><input type="checkbox" class="checkbox" checked><s>${item.title}</s></li>`
+            : element`<li><input type="checkbox" class="checkbox">${item.title}</li>`;
+        todoListElement.appendChild(todoItemElement);
+    });
+    render(todoListElement, containerElement);
+    todoItemCountElement.textContent = `Todoアイテム数: ${this.todoListModel.getTotalCount()}`;
+});
+ */
